@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+	xmlns:tns="http://www.ttu.ee/idu0075/2017/ws/store" 
+	targetNamespace="http://www.ttu.ee/idu0075/2017/ws/store">
+	<wsdl:types>
+		<xs:schema targetNamespace="http://www.ttu.ee/idu0075/2017/ws/store" elementFormDefault="qualified">
+			<xs:complexType name="store">
+				<xs:sequence>
+					<xs:element name="id" type="xs:integer"/>
+					<xs:element name="storeName" type="xs:string"/>
+                    <xs:element name="city" type="tns:city"/>
+                    <xs:element name="address" type="xs:string"/>
+					<xs:element name="storeProductList" type="tns:storeProductList"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="product">
+				<xs:sequence>
+					<xs:element name="id" type="xs:integer"/>
+                    <xs:element name="name" type="xs:string"/>
+                    <xs:element name="serialNo" type="xs:string"/>
+                    <xs:element name="producer" type="xs:string"/>
+                    <xs:element name="category" type="tns:category"/>
+                    <xs:element name="year" type="tns:year"/>
+                    <xs:element name="price" type="tns:price"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="storeProductList">
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="unbounded" name="product" type="tns:product"/>
+				</xs:sequence>
+			</xs:complexType>
+			
+            <!-- Restrictions -->
+            <xs:simpleType name="year">
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="2000"/>
+					<xs:maxInclusive value="2030"/>
+				</xs:restriction>
+			</xs:simpleType>
+            <xs:simpleType name="city">
+				<xs:restriction base="xs:string">
+                    <xs:pattern value="Tallinn|Tartu|Narva|Rakvere|Parnu"/>
+				</xs:restriction>    
+			</xs:simpleType>
+            <xs:simpleType name="category">
+				<xs:restriction base="xs:string">
+                    <xs:pattern value="Phones|Tablets|Computers|Acessories|TVs"/>
+				</xs:restriction>    
+			</xs:simpleType>
+            <xs:simpleType name="price">
+				<xs:restriction base="xs:decimal">
+                    <xs:fractionDigits value="2"/>
+                    <xs:minInclusive value="0"/>
+					<xs:maxInclusive value="500000"/>
+                </xs:restriction>
+			</xs:simpleType>
+            
+            <!-- Web service Operations -->
+			<xs:element name="getStoreRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="id" type="xs:integer"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getStoreResponse" type="tns:store"/>
+
+			<xs:element name="addStoreRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+                        <xs:element name="requestId" type="xs:string"/>
+					    <xs:element name="storeName" type="xs:string"/>
+                        <xs:element name="city" type="tns:city"/>
+                        <xs:element name="address" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addStoreResponse" type="tns:store"/>
+
+			<xs:element name="getStoreListRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element minOccurs="0" name="hasRelatedProducts">
+						  <xs:simpleType>
+							<xs:restriction base="xs:string">
+							  <xs:pattern value="jah|ei"/>
+							</xs:restriction>
+						  </xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getStoreListResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="store" type="tns:store"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="getProductRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="id" type="xs:integer"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getProductResponse" type="tns:product"/>
+
+			<xs:element name="addProductRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+                        <xs:element name="requestId" type="xs:string"/>
+						<xs:element name="name" type="xs:string"/>
+					    <xs:element name="serialNo" type="xs:string"/>
+                        <xs:element name="producer" type="xs:string"/>
+                        <xs:element name="category" type="tns:category"/>
+                        <xs:element name="year" type="tns:year"/>
+                        <xs:element name="price" type="tns:price"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addProductResponse" type="tns:product"/>
+
+			<xs:element name="getProductListRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+                        <xs:element minOccurs="0" name="category" type="tns:category"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getProductListResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="product" type="tns:product"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="getStoreProductListRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="storeId" type="xs:integer"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getStoreProductListResponse" type="tns:storeProductList"/>
+
+			<xs:element name="addStoreProductRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+                        <xs:element name="requestId" type="xs:string"/>
+						<xs:element name="storeId" type="xs:integer"/>
+						<xs:element name="productId" type="xs:integer"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addStoreProductResponse" type="tns:product"/>
+		</xs:schema>
+	</wsdl:types>
+    <wsdl:message name="getStoreMessageRequest">
+		<wsdl:part name="parameter" element="tns:getStoreRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStoreMessageResponse">
+		<wsdl:part name="parameter" element="tns:getStoreResponse"/>
+	</wsdl:message>
+	<wsdl:message name="addStoreMessageRequest">
+		<wsdl:part name="parameter" element="tns:addStoreRequest"/>
+	</wsdl:message>
+	<wsdl:message name="addStoreMessageResponse">
+		<wsdl:part name="parameter" element="tns:addStoreResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getStoreListMessageRequest">
+		<wsdl:part name="parameter" element="tns:getStoreListRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStoreListMessageResponse">
+		<wsdl:part name="parameter" element="tns:getStoreListResponse"/>
+	</wsdl:message>
+
+	<wsdl:message name="getProductMessageRequest">
+		<wsdl:part name="parameter" element="tns:getProductRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getProductMessageResponse">
+		<wsdl:part name="parameter" element="tns:getProductResponse"/>
+	</wsdl:message>
+	<wsdl:message name="addProductMessageRequest">
+		<wsdl:part name="parameter" element="tns:addProductRequest"/>
+	</wsdl:message>
+	<wsdl:message name="addProductMessageResponse">
+		<wsdl:part name="parameter" element="tns:addProductResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getProductListMessageRequest">
+		<wsdl:part name="parameter" element="tns:getProductListRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getProductListMessageResponse">
+		<wsdl:part name="parameter" element="tns:getProductListResponse"/>
+	</wsdl:message>
+
+	<wsdl:message name="getStoreProductListMessageRequest">
+		<wsdl:part name="parameter" element="tns:getStoreProductListRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStoreProductListMessageResponse">
+		<wsdl:part name="parameter" element="tns:getStoreProductListResponse"/>
+	</wsdl:message>
+	<wsdl:message name="addStoreProductMessageRequest">
+		<wsdl:part name="parameter" element="tns:addStoreProductRequest"/>
+	</wsdl:message>
+	<wsdl:message name="addStoreProductMessageResponse">
+		<wsdl:part name="parameter" element="tns:addStoreProductResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="StorePortType">
+		<wsdl:operation name="getStore">
+			<wsdl:input message="tns:getStoreMessageRequest"/>
+			<wsdl:output message="tns:getStoreMessageResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="addStore">
+			<wsdl:input message="tns:addStoreMessageRequest"/>
+			<wsdl:output message="tns:addStoreMessageResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getStoreList">
+			<wsdl:input message="tns:getStoreListMessageRequest"/>
+			<wsdl:output message="tns:getStoreListMessageResponse"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="getProduct">
+			<wsdl:input message="tns:getProductMessageRequest"/>
+			<wsdl:output message="tns:getProductMessageResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="addProduct">
+			<wsdl:input message="tns:addProductMessageRequest"/>
+			<wsdl:output message="tns:addProductMessageResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getProductList">
+			<wsdl:input message="tns:getProductListMessageRequest"/>
+			<wsdl:output message="tns:getProductListMessageResponse"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="getStoreProductList">
+			<wsdl:input message="tns:getStoreProductListMessageRequest"/>
+			<wsdl:output message="tns:getStoreProductListMessageResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="addStoreProduct">
+			<wsdl:input message="tns:addStoreProductMessageRequest"/>
+			<wsdl:output message="tns:addStoreProductMessageResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="StoreBinding" type="tns:StorePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getProduct">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="addProduct">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getProductList">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>	
+		<wsdl:operation name="getStore">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="addStore">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getStoreList">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>	
+		<wsdl:operation name="getStoreProductList">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="addStoreProduct">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="StoreService">
+		<wsdl:port name="StorePort" binding="tns:StoreBinding">
+			<soap:address location="Empty"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
+

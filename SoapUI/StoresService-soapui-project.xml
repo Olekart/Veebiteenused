@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="b23ef529-e716-4bc7-8027-dd7f2e98f551" activeEnvironment="Default" name="StoresService" resourceRoot="" soapui-version="5.4.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="0a77881d-c537-4bd9-97f0-12b6ca1c3c5e" wsaVersion="NONE" name="StoreBinding" type="wsdl" bindingName="{http://www.ttu.ee/idu0075/2017/ws/store}StoreBinding" soapVersion="1_1" anonymous="optional" definition="http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService?wsdl"><con:part><con:url>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService?wsdl</con:url><con:content><![CDATA[<!--Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown.-->
+<wsdl:definitions targetNamespace="http://www.ttu.ee/idu0075/2017/ws/store" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.ttu.ee/idu0075/2017/ws/store">
+  <wsdl:types>
+    <xs:schema targetNamespace="http://www.ttu.ee/idu0075/2017/ws/store" elementFormDefault="qualified">
+      <xs:complexType name="store">
+        <xs:sequence>
+          <xs:element name="id" type="xs:integer"/>
+          <xs:element name="storeName" type="xs:string"/>
+          <xs:element name="city" type="tns:city"/>
+          <xs:element name="address" type="xs:string"/>
+          <xs:element name="storeProductList" type="tns:storeProductList"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="product">
+        <xs:sequence>
+          <xs:element name="id" type="xs:integer"/>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="serialNo" type="xs:string"/>
+          <xs:element name="producer" type="xs:string"/>
+          <xs:element name="category" type="tns:category"/>
+          <xs:element name="year" type="tns:year"/>
+          <xs:element name="price" type="tns:price"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="storeProductList">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="product" type="tns:product"/>
+        </xs:sequence>
+      </xs:complexType>
+      <!--Restrictions-->
+      <xs:simpleType name="year">
+        <xs:restriction base="xs:integer">
+          <xs:minInclusive value="2000"/>
+          <xs:maxInclusive value="2030"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="city">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="Tallinn|Tartu|Narva|Rakvere|Parnu"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="category">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="Phones|Tablets|Computers|Acessories|TVs"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="price">
+        <xs:restriction base="xs:decimal">
+          <xs:fractionDigits value="2"/>
+          <xs:minInclusive value="0"/>
+          <xs:maxInclusive value="500000"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <!--Web service Operations-->
+      <xs:element name="getStoreRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="token" type="xs:string"/>
+            <xs:element name="id" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getStoreResponse" type="tns:store"/>
+      <xs:element name="addStoreRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="token" type="xs:string"/>
+            <xs:element name="requestId" type="xs:string"/>
+            <xs:element name="storeName" type="xs:string"/>
+            <xs:element name="city" type="tns:city"/>
+            <xs:element name="address" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="addStoreResponse" type="tns:store"/>
+      <xs:element name="getStoreListRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="token" type="xs:string"/>
+            <xs:element minOccurs="0" name="hasRelatedProducts">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:pattern value="jah|ei"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getStoreListResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="store" type="tns:store"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getProductRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="token" type="xs:string"/>
+            <xs:element name="id" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getProductResponse" type="tns:product"/>
+      <xs:element name="addProductRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="token" type="xs:string"/>
+            <xs:element name="requestId" type="xs:string"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="serialNo" type="xs:string"/>
+            <xs:element name="producer" type="xs:string"/>
+            <xs:element name="category" type="tns:category"/>
+            <xs:element name="year" type="tns:year"/>
+            <xs:element name="price" type="tns:price"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="addProductResponse" type="tns:product"/>
+      <xs:element name="getProductListRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="token" type="xs:string"/>
+            <xs:element minOccurs="0" name="category" type="tns:category"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getProductListResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="product" type="tns:product"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getStoreProductListRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="token" type="xs:string"/>
+            <xs:element name="storeId" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getStoreProductListResponse" type="tns:storeProductList"/>
+      <xs:element name="addStoreProductRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="token" type="xs:string"/>
+            <xs:element name="requestId" type="xs:string"/>
+            <xs:element name="storeId" type="xs:integer"/>
+            <xs:element name="productId" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="addStoreProductResponse" type="tns:product"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getStoreMessageRequest">
+    <wsdl:part name="parameter" element="tns:getStoreRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getStoreMessageResponse">
+    <wsdl:part name="parameter" element="tns:getStoreResponse"/>
+  </wsdl:message>
+  <wsdl:message name="addStoreMessageRequest">
+    <wsdl:part name="parameter" element="tns:addStoreRequest"/>
+  </wsdl:message>
+  <wsdl:message name="addStoreMessageResponse">
+    <wsdl:part name="parameter" element="tns:addStoreResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getStoreListMessageRequest">
+    <wsdl:part name="parameter" element="tns:getStoreListRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getStoreListMessageResponse">
+    <wsdl:part name="parameter" element="tns:getStoreListResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getProductMessageRequest">
+    <wsdl:part name="parameter" element="tns:getProductRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getProductMessageResponse">
+    <wsdl:part name="parameter" element="tns:getProductResponse"/>
+  </wsdl:message>
+  <wsdl:message name="addProductMessageRequest">
+    <wsdl:part name="parameter" element="tns:addProductRequest"/>
+  </wsdl:message>
+  <wsdl:message name="addProductMessageResponse">
+    <wsdl:part name="parameter" element="tns:addProductResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getProductListMessageRequest">
+    <wsdl:part name="parameter" element="tns:getProductListRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getProductListMessageResponse">
+    <wsdl:part name="parameter" element="tns:getProductListResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getStoreProductListMessageRequest">
+    <wsdl:part name="parameter" element="tns:getStoreProductListRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getStoreProductListMessageResponse">
+    <wsdl:part name="parameter" element="tns:getStoreProductListResponse"/>
+  </wsdl:message>
+  <wsdl:message name="addStoreProductMessageRequest">
+    <wsdl:part name="parameter" element="tns:addStoreProductRequest"/>
+  </wsdl:message>
+  <wsdl:message name="addStoreProductMessageResponse">
+    <wsdl:part name="parameter" element="tns:addStoreProductResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="StorePortType">
+    <wsdl:operation name="getStore">
+      <wsdl:input message="tns:getStoreMessageRequest"/>
+      <wsdl:output message="tns:getStoreMessageResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="addStore">
+      <wsdl:input message="tns:addStoreMessageRequest"/>
+      <wsdl:output message="tns:addStoreMessageResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getStoreList">
+      <wsdl:input message="tns:getStoreListMessageRequest"/>
+      <wsdl:output message="tns:getStoreListMessageResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getProduct">
+      <wsdl:input message="tns:getProductMessageRequest"/>
+      <wsdl:output message="tns:getProductMessageResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="addProduct">
+      <wsdl:input message="tns:addProductMessageRequest"/>
+      <wsdl:output message="tns:addProductMessageResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getProductList">
+      <wsdl:input message="tns:getProductListMessageRequest"/>
+      <wsdl:output message="tns:getProductListMessageResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getStoreProductList">
+      <wsdl:input message="tns:getStoreProductListMessageRequest"/>
+      <wsdl:output message="tns:getStoreProductListMessageResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="addStoreProduct">
+      <wsdl:input message="tns:addStoreProductMessageRequest"/>
+      <wsdl:output message="tns:addStoreProductMessageResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="StoreBinding" type="tns:StorePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getProduct">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addProduct">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProductList">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStore">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addStore">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStoreList">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStoreProductList">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addStoreProduct">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="StoreService">
+    <wsdl:port name="StorePort" binding="tns:StoreBinding">
+      <soap:address location="http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint></con:endpoints><con:operation id="b3cd55f9-dfe9-4bce-92f1-dfa3d2d363a9" isOneWay="false" action="" name="addProduct" bindingOperationName="addProduct" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="9e4ab5a8-60f8-496c-9f15-6d6d9a2a8f61" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:addProductRequest>
+         <stor:token>salajane</stor:token>
+         <stor:requestId>add</stor:requestId>
+         <stor:name>IPhone SE</stor:name>
+         <stor:serialNo>A1723</stor:serialNo>
+         <stor:producer>Apple</stor:producer>
+         <stor:category>Phones</stor:category>
+         <stor:year>2016</stor:year>
+         <stor:price>350.00</stor:price>
+      </stor:addProductRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/addProductRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="e432a60d-c57a-4a88-b88e-4bfdce018838" isOneWay="false" action="" name="addStore" bindingOperationName="addStore" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="d56a43e7-3ad6-46af-95ac-be55d73778e9" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:addStoreRequest>
+         <stor:token>salajane</stor:token>
+         <stor:requestId>add</stor:requestId>
+         <stor:storeName>Euronics Viru</stor:storeName>
+         <stor:city>Tallinn</stor:city>
+         <stor:address>Narva mnt 18b</stor:address>
+      </stor:addStoreRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/addStoreRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="6697d6a6-45c6-4a67-a08f-ebbd0bcb5c42" isOneWay="false" action="" name="addStoreProduct" bindingOperationName="addStoreProduct" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="cb502d5b-7748-45ac-9643-52d3e205a389" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:addStoreProductRequest>
+         <stor:token>salajane</stor:token>
+         <stor:requestId>add</stor:requestId>
+         <stor:storeId>1</stor:storeId>
+         <stor:productId>1</stor:productId>
+      </stor:addStoreProductRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/addStoreProductRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="7b4af9ff-2118-4bfc-92dc-cc7e605e030f" isOneWay="false" action="" name="getProduct" bindingOperationName="getProduct" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="381ef1f4-fc12-4aa8-9f1d-038d4b6e9bed" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:getProductRequest>
+         <stor:token>salajane</stor:token>
+         <stor:id>1</stor:id>
+      </stor:getProductRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/getProductRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="dc8df46f-228f-4174-8560-3d7b7b403098" isOneWay="false" action="" name="getProductList" bindingOperationName="getProductList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="af6830ab-7c8d-436e-9a05-388dcef922ab" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:getProductListRequest>
+         <stor:token>salajane</stor:token>
+         <!--Optional:-->
+         <stor:category>Phones</stor:category>
+      </stor:getProductListRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/getProductListRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="faa73f23-c835-4e2f-96d4-f7274f1c146b" isOneWay="false" action="" name="getStore" bindingOperationName="getStore" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="25e1d23d-08e6-44c1-bfa8-7817506ecdd4" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:getStoreRequest>
+         <stor:token>salajane</stor:token>
+         <stor:id>1</stor:id>
+      </stor:getStoreRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/getStoreRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="38707722-cfc6-46d3-8684-020301ed8466" isOneWay="false" action="" name="getStoreList" bindingOperationName="getStoreList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="a11cdfc6-63e9-49db-9bea-07d76dcd51a5" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:getStoreListRequest>
+         <stor:token>salajane</stor:token>
+         <!--Optional:-->
+         <stor:hasRelatedProducts>jah</stor:hasRelatedProducts>
+      </stor:getStoreListRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/getStoreListRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="7b182942-70d1-4ac9-bcc1-550014f18a37" isOneWay="false" action="" name="getStoreProductList" bindingOperationName="getStoreProductList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="155362e9-7e98-4d49-8a54-d00127eebf84" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:getStoreProductListRequest>
+         <stor:token>salajane</stor:token>
+         <stor:storeId>1</stor:storeId>
+      </stor:getStoreProductListRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/getStoreProductListRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="fe335342-09fb-41e0-ac24-4c94daf2a2f9" name="StoreBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="e391d8c2-f4c7-4fbd-aaeb-6434f09ce2a9" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="StoreBinding TestSuite" searchProperties="true"><con:settings/><con:testStep type="request" id="8b97d476-3165-48a5-97ed-cbe3f847d80b" name="addProduct"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>StoreBinding</con:interface><con:operation>addProduct</con:operation><con:request name="addProduct" id="cff2f140-05f3-476e-951e-5d23d49fd7f8"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:addProductRequest>
+         <stor:token>salajane</stor:token>
+         <stor:requestId>add</stor:requestId>
+         <stor:name>IPhone SE</stor:name>
+         <stor:serialNo>A1723</stor:serialNo>
+         <stor:producer>Apple</stor:producer>
+         <stor:category>Phones</stor:category>
+         <stor:year>2016</stor:year>
+         <stor:price>350.00</stor:price>
+      </stor:addProductRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Schema Compliance" id="23da4825-bd66-4d90-a7c6-6f98d6215ee6" name="Schema Compliance"><con:configuration><definition/></con:configuration></con:assertion><con:assertion type="XPath Match" id="2e38a7e9-df17-4317-82f0-62e9765f880c" name="XPath Match"><con:configuration><path>declare namespace ns1='http://www.ttu.ee/idu0075/2017/ws/store';
+declare namespace S='http://schemas.xmlsoap.org/soap/envelope/';
+//ns1:addProductResponse</path><content><![CDATA[<addProductResponse xmlns="http://www.ttu.ee/idu0075/2017/ws/store" xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <id>1</id>
+  <name>IPhone SE</name>
+  <serialNo>A1723</serialNo>
+  <producer>Apple</producer>
+  <category>Phones</category>
+  <year>2016</year>
+  <price>350.00</price>
+</addProductResponse>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="Simple Contains" id="5b0e221b-2774-490b-9f3c-9a1aec227dee" name="Contains"><con:configuration><token>Apple</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/addProductRequest" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="7919677b-8d4e-466d-9e9d-4423cc17a911" name="addStore"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>StoreBinding</con:interface><con:operation>addStore</con:operation><con:request name="addStore" id="91f32cf6-ae96-42a3-91ee-9106dc82c851"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:addStoreRequest>
+         <stor:token>salajane</stor:token>
+         <stor:requestId>add</stor:requestId>
+         <stor:storeName>Euronics Viru</stor:storeName>
+         <stor:city>Tallinn</stor:city>
+         <stor:address>Narva mnt 18b</stor:address>
+      </stor:addStoreRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Schema Compliance" id="49df851c-3944-4eb9-b7af-1db0959db281" name="Schema Compliance"><con:configuration><definition/></con:configuration></con:assertion><con:assertion type="Simple Contains" id="e72269ca-d905-49f7-92b6-9a29df864e93" name="Contains"><con:configuration><token>Tallinn</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="XPath Match" id="65f55255-fafe-4701-9979-2a30e3d90a96" name="XPath Match"><con:configuration><path>declare namespace ns1='http://www.ttu.ee/idu0075/2017/ws/store';
+declare namespace S='http://schemas.xmlsoap.org/soap/envelope/';
+//ns1:addStoreResponse</path><content><![CDATA[<addStoreResponse xmlns="http://www.ttu.ee/idu0075/2017/ws/store" xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <id>1</id>
+  <storeName>Euronics Viru</storeName>
+  <city>Tallinn</city>
+  <address>Narva mnt 18b</address>
+  <storeProductList/>
+</addStoreResponse>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/addStoreRequest" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="3f719949-54fa-448d-a5fe-e96193f044e4" name="addStoreProduct"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>StoreBinding</con:interface><con:operation>addStoreProduct</con:operation><con:request name="addStoreProduct" id="fef4e201-d51d-4acd-984e-ada0bdfb22d7"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:addStoreProductRequest>
+         <stor:token>salajane</stor:token>
+         <stor:requestId>add</stor:requestId>
+         <stor:storeId>1</stor:storeId>
+         <stor:productId>1</stor:productId>
+      </stor:addStoreProductRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Schema Compliance" id="94c21e02-02ef-4b41-b343-bae2531a9984" name="Schema Compliance"><con:configuration><definition/></con:configuration></con:assertion><con:assertion type="Simple Contains" id="1e68285d-06fa-4ea6-b1f7-364edea975e7" name="Contains"><con:configuration><token>2016</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="XPath Match" id="ecdc4619-1448-4073-bbb7-8ccd8847ffa9" name="XPath Match"><con:configuration><path>declare namespace ns1='http://www.ttu.ee/idu0075/2017/ws/store';
+declare namespace S='http://schemas.xmlsoap.org/soap/envelope/';
+//ns1:addStoreProductResponse</path><content><![CDATA[<addStoreProductResponse xmlns="http://www.ttu.ee/idu0075/2017/ws/store" xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <id>1</id>
+  <name>IPhone SE</name>
+  <serialNo>A1723</serialNo>
+  <producer>Apple</producer>
+  <category>Phones</category>
+  <year>2016</year>
+  <price>350.00</price>
+</addStoreProductResponse>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/addStoreProductRequest" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="43d453f0-75ee-48d2-8bc9-bf6ff94ac339" name="getProduct"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>StoreBinding</con:interface><con:operation>getProduct</con:operation><con:request name="getProduct" id="82c79b5f-6937-4ae2-86d0-c9e56084bfd1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:getProductRequest>
+         <stor:token>salajane</stor:token>
+         <stor:id>1</stor:id>
+      </stor:getProductRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Schema Compliance" id="f1fe092a-1d26-46a2-a616-a4d95aa358bf" name="Schema Compliance"><con:configuration><definition/></con:configuration></con:assertion><con:assertion type="Simple Contains" id="3f2247ca-4653-44ba-b1d8-c783b8f931c9" name="Contains"><con:configuration><token>IPhone</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="XPath Match" id="edad2ad7-dc4a-4dc0-8b58-136cbe79984d" name="XPath Match"><con:configuration><path>declare namespace ns1='http://www.ttu.ee/idu0075/2017/ws/store';
+declare namespace S='http://schemas.xmlsoap.org/soap/envelope/';
+//ns1:getProductResponse</path><content><![CDATA[<getProductResponse xmlns="http://www.ttu.ee/idu0075/2017/ws/store" xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <id>1</id>
+  <name>IPhone SE</name>
+  <serialNo>A1723</serialNo>
+  <producer>Apple</producer>
+  <category>Phones</category>
+  <year>2016</year>
+  <price>350.00</price>
+</getProductResponse>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/getProductRequest" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="045c565f-c8e9-4779-b2ac-ea0cf5abc377" name="getProductList"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>StoreBinding</con:interface><con:operation>getProductList</con:operation><con:request name="getProductList" id="d4869206-1e0e-4358-81c4-fbd3642ee867"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:getProductListRequest>
+         <stor:token>salajane</stor:token>
+         <!--Optional:-->
+         <stor:category>Phones</stor:category>
+      </stor:getProductListRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Schema Compliance" id="f7739b73-4eec-46e7-8ec5-10f2cf6a2ef3" name="Schema Compliance"><con:configuration><definition/></con:configuration></con:assertion><con:assertion type="Simple Contains" id="c39ebe78-7691-4717-8a2d-f59b3ae409ec" name="Contains"><con:configuration><token>350.00</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="XPath Match" id="0f13d476-7024-45b9-8c5e-b41d2b8551e0" name="XPath Match"><con:configuration><path>declare namespace ns1='http://www.ttu.ee/idu0075/2017/ws/store';
+declare namespace S='http://schemas.xmlsoap.org/soap/envelope/';
+//ns1:getProductListResponse</path><content><![CDATA[<getProductListResponse xmlns="http://www.ttu.ee/idu0075/2017/ws/store" xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <product>
+    <id>1</id>
+    <name>IPhone SE</name>
+    <serialNo>A1723</serialNo>
+    <producer>Apple</producer>
+    <category>Phones</category>
+    <year>2016</year>
+    <price>350.00</price>
+  </product>
+</getProductListResponse>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/getProductListRequest" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="d336d8f0-52c1-4129-8b3e-e0c0c110784d" name="getStore"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>StoreBinding</con:interface><con:operation>getStore</con:operation><con:request name="getStore" id="ade42576-dcd6-4920-a356-db6094ac4589"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:getStoreRequest>
+         <stor:token>salajane</stor:token>
+         <stor:id>1</stor:id>
+      </stor:getStoreRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Schema Compliance" id="54ea3ca8-0d45-45dd-819c-73f53fe83d93" name="Schema Compliance"><con:configuration><definition/></con:configuration></con:assertion><con:assertion type="Simple Contains" id="48273b62-ee3e-4e9d-856f-986d15b2907f" name="Contains"><con:configuration><token>Narva mnt 18b</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="XPath Match" id="d81c4a53-727f-4952-a8eb-0626a8a4b719" name="XPath Match"><con:configuration><path>declare namespace ns1='http://www.ttu.ee/idu0075/2017/ws/store';
+declare namespace S='http://schemas.xmlsoap.org/soap/envelope/';
+//ns1:getStoreResponse</path><content><![CDATA[<getStoreResponse xmlns="http://www.ttu.ee/idu0075/2017/ws/store" xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <id>1</id>
+  <storeName>Euronics Viru</storeName>
+  <city>Tallinn</city>
+  <address>Narva mnt 18b</address>
+  <storeProductList>
+    <product>
+      <id>1</id>
+      <name>IPhone SE</name>
+      <serialNo>A1723</serialNo>
+      <producer>Apple</producer>
+      <category>Phones</category>
+      <year>2016</year>
+      <price>350.00</price>
+    </product>
+  </storeProductList>
+</getStoreResponse>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/getStoreRequest" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="3ba3eda6-4719-4b6e-94e4-d697e31d85f5" name="getStoreList"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>StoreBinding</con:interface><con:operation>getStoreList</con:operation><con:request name="getStoreList" id="23b5d769-694a-4abf-b65a-05583c386d17"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:getStoreListRequest>
+         <stor:token>salajane</stor:token>
+         <!--Optional:-->
+         <stor:hasRelatedProducts>jah</stor:hasRelatedProducts>
+      </stor:getStoreListRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Schema Compliance" id="3bb619e6-e763-45be-8a22-6341edf2c2bf" name="Schema Compliance"><con:configuration><definition/></con:configuration></con:assertion><con:assertion type="Simple Contains" id="ccbcc346-283d-43ad-a39f-11c402e1f823" name="Contains"><con:configuration><token>Euronics</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="XPath Match" id="731cd77a-532a-43ac-8343-1cc46f297cbd" name="XPath Match"><con:configuration><path>declare namespace ns1='http://www.ttu.ee/idu0075/2017/ws/store';
+declare namespace S='http://schemas.xmlsoap.org/soap/envelope/';
+//ns1:getStoreListResponse</path><content><![CDATA[<getStoreListResponse xmlns="http://www.ttu.ee/idu0075/2017/ws/store" xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <store>
+    <id>1</id>
+    <storeName>Euronics Viru</storeName>
+    <city>Tallinn</city>
+    <address>Narva mnt 18b</address>
+    <storeProductList>
+      <product>
+        <id>1</id>
+        <name>IPhone SE</name>
+        <serialNo>A1723</serialNo>
+        <producer>Apple</producer>
+        <category>Phones</category>
+        <year>2016</year>
+        <price>350.00</price>
+      </product>
+    </storeProductList>
+  </store>
+</getStoreListResponse>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/getStoreListRequest" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="288358b1-971d-43e3-9c37-87c77779c771" name="getStoreProductList"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>StoreBinding</con:interface><con:operation>getStoreProductList</con:operation><con:request name="getStoreProductList" id="d9dacfae-8a6b-4849-9c85-48f3d22aec32"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://macbook-pro-oleg.local:8080/StoreWebApplication/StoreService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:stor="http://www.ttu.ee/idu0075/2017/ws/store">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <stor:getStoreProductListRequest>
+         <stor:token>salajane</stor:token>
+         <stor:storeId>1</stor:storeId>
+      </stor:getStoreProductListRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Schema Compliance" id="6cfb9f16-5023-4226-a9c1-c07d5cae8de9" name="Schema Compliance"><con:configuration><definition/></con:configuration></con:assertion><con:assertion type="Simple Contains" id="49deb2b1-7d03-4210-8ca1-468160b826b7" name="Contains"><con:configuration><token>A1723</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="XPath Match" id="7cfd5810-baf2-4064-bcef-fba1f43723a5" name="XPath Match"><con:configuration><path>declare namespace ns1='http://www.ttu.ee/idu0075/2017/ws/store';
+declare namespace S='http://schemas.xmlsoap.org/soap/envelope/';
+//ns1:getStoreProductListResponse</path><content><![CDATA[<getStoreProductListResponse xmlns="http://www.ttu.ee/idu0075/2017/ws/store" xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <product>
+    <id>1</id>
+    <name>IPhone SE</name>
+    <serialNo>A1723</serialNo>
+    <producer>Apple</producer>
+    <category>Phones</category>
+    <year>2016</year>
+    <price>350.00</price>
+  </product>
+</getStoreProductListResponse>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://www.ttu.ee/idu0075/2017/ws/store/StorePortType/getStoreProductListRequest" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
